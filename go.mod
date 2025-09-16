@@ -1,5 +1,15 @@
-module github.com/pdevine/thisisfine
+module github.com/allir/thisisfine
 
-go 1.15
+go 1.24.0
 
-require github.com/pdevine/go-asciisprite v0.1.5
+require github.com/pdevine/go-asciisprite v0.1.6
+
+require (
+	github.com/gdamore/encoding v1.0.1 // indirect
+	github.com/gdamore/tcell v1.4.0 // indirect
+	github.com/lucasb-eyer/go-colorful v1.3.0 // indirect
+	github.com/mattn/go-runewidth v0.0.16 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
+	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/text v0.29.0 // indirect
+)

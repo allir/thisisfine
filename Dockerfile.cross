@@ -1,13 +1,12 @@
-FROM --platform=$BUILDPLATFORM golang:alpine3.14 AS builder
-WORKDIR /project
-COPY tif.go .
-COPY go.* ./
+FROM --platform=$BUILDPLATFORM golang:1.25 AS builder
+WORKDIR /build
+COPY . .
 RUN go mod tidy
 
 ARG TARGETOS
 ARG TARGETARCH
 ENV GOOS=$TARGETOS GOARCH=$TARGETARCH
-RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o thisisfine tif.go
+RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o thisisfine main.go
 
 FROM scratch AS release-linux
 COPY --from=builder /project/thisisfine /thisisfine

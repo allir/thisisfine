@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches:
+      - allir/refactor
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Build
+        shell: bash
+        run: |
+          make build

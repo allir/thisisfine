@@ -1,11 +1,9 @@
-FROM golang:alpine3.14
-WORKDIR /project
-COPY tif.go .
-COPY go.* ./
-RUN go mod tidy
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o thisisfine tif.go
+FROM golang:1.25 AS build
+WORKDIR /build
+COPY . .
+RUN CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o thisisfine main.go
 
 FROM scratch
-COPY --from=0 /project/thisisfine /thisisfine
+COPY --from=build /build/thisisfine /usr/local/bin/thisisfine
 ENV TERM="xterm-256color"
-CMD ["/thisisfine"]
+CMD ["/usr/local/bin/thisisfine"]

@@ -92,8 +92,8 @@ type Table struct {
 type Fire struct {
 	sprite.BaseSprite
 	Points int
-	mu sync.Mutex
-	buf [][]int
+	mu     sync.Mutex
+	buf    [][]int
 }
 
 type Smoke struct {
@@ -116,11 +116,11 @@ func NewDog() *Dog {
 
 	d.RegisterEvent("resizeScreen", func() {
 		d.X = Width/2 - 22
-		if Width/2 % 2 != 0 {
+		if Width/2%2 != 0 {
 			d.X++
 		}
 		d.Y = Height/2 + 8
-		if Height/2 % 2 != 0 {
+		if Height/2%2 != 0 {
 			d.Y++
 		}
 	})
@@ -193,7 +193,7 @@ func NewSmoke() *Smoke {
 			}
 		}
 
-		for cnt := 0; cnt < Width*2 / surf.Width; cnt++ {
+		for cnt := 0; cnt < Width*2/surf.Width; cnt++ {
 			bigSurf.Blit(surf, cnt*surf.Width, yOff)
 		}
 
@@ -216,8 +216,8 @@ func (s *Smoke) Update() {
 
 func NewFire(side int) *Fire {
 	f := &Fire{BaseSprite: sprite.BaseSprite{
-		X: 0,
-		Y: 0,
+		X:       0,
+		Y:       0,
 		Visible: true},
 		Points: 5,
 	}
@@ -260,7 +260,7 @@ func NewFire(side int) *Fire {
 			f.X = 0
 			f.Y = -Height/2 + 20
 		case BACKRIGHT:
-			f.X = Width/2
+			f.X = Width / 2
 			f.Y = -Height/2 + 20
 		}
 
@@ -278,7 +278,7 @@ func (f *Fire) Update() {
 	if len(f.buf) < Height || len(f.buf[Height-1]) < Width/2 {
 		return
 	}
-	for cnt := 0; cnt < int(Width/2 / f.Points); cnt++ {
+	for cnt := 0; cnt < int(Width/2/f.Points); cnt++ {
 		f.buf[Height-1][rand.Intn(Width/2)] = 65
 	}
 	surf := sprite.NewSurface(Width/2, Height, true)
@@ -310,20 +310,20 @@ func (f *Fire) Update() {
 
 func NewText() *Text {
 	t := &Text{BaseSprite: sprite.BaseSprite{
-		X: Width/2,
-		Y: 30,
+		X:       Width / 2,
+		Y:       30,
 		Visible: false},
 		font: sprite.NewPakuFont(),
 	}
 	t.Init()
 
 	t.RegisterEvent("resizeScreen", func() {
-		t.X = Width/2
-		if Width/2 % 2 != 0 {
+		t.X = Width / 2
+		if Width/2%2 != 0 {
 			t.X++
 		}
 		t.Y = Height/2 - 20
-		if Height/2 % 2 != 0 {
+		if Height/2%2 != 0 {
 			t.Y++
 		}
 	})
@@ -346,7 +346,7 @@ func NewText() *Text {
 	bgSurf.Blit(surf, w/2-surf.Width/2, h/2-surf.Height/2)
 	bgSurf.Blit(bb, 12, bgSurf.Height-bb.Height)
 
-        t.BlockCostumes = append(t.BlockCostumes, &bgSurf)
+	t.BlockCostumes = append(t.BlockCostumes, &bgSurf)
 
 	t.RegisterEvent("saythisisfine", func() {
 		t.Visible = true
@@ -381,8 +381,8 @@ func main() {
 	defer tm.Close()
 
 	w, h := tm.Size()
-	Width = w*2
-	Height = h*2
+	Width = w * 2
+	Height = h * 2
 
 	setPalette()
 
@@ -436,8 +436,8 @@ mainloop:
 				if ev.Width == 0 || ev.Height == 0 {
 					continue
 				}
-				Width = ev.Width*2
-				Height = ev.Height*2
+				Width = ev.Width * 2
+				Height = ev.Height * 2
 				allSprites.Init(Width, Height, true)
 				allSprites.Background = tm.Color187
 				allSprites.TriggerEvent("resizeScreen")
@@ -450,4 +450,3 @@ mainloop:
 	}
 
 }
-
